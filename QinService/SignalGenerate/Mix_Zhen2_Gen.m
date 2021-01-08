@@ -1,110 +1,13 @@
-% Model
-% MixresultZhen = cell(1,77);
-% MixresultZhen{1,1} = 85;
-% MixresultZhen{1,2} = 16;
-% MixresultZhen{1,3} = 32.5;        % 采样率 32.5Msps/MHZ
-% MixresultZhen{1,4} = 4;          % 带宽
-% MixresultZhen{1,5} = 2020;        % 年
-% MixresultZhen{1,6} = 11;          % 月
-% MixresultZhen{1,7} = 9;           % 日
-% MixresultZhen{1,8} = 9;           % 时
-% MixresultZhen{1,9} = 58;          % 分
-% MixresultZhen{1,10} = 30;         % 秒
-% MixresultZhen{1,11} = 1;          % 秒内计数
-% MixresultZhen{1,12} = 0;          % 站的经度
-% MixresultZhen{1,13} = 0;          % 站的纬度
-% MixresultZhen{1,14} = 0;          % 站的高度 整数
-% MixresultZhen{1,15} = 0;          % 航向角
-% MixresultZhen{1,16} = 0;          % 俯仰角
-% MixresultZhen{1,17} = 0;          % x轴磁场分量
-% MixresultZhen{1,18} = 0;          % Y轴磁场分量
-% MixresultZhen{1,19} = 0;          % z轴磁场分量
-% MixresultZhen{1,20} = 3;          % 升空散射体个数 
-% MixresultZhen{1,21} = 0;          % 升空散射体精度 S1
-% MixresultZhen{1,22} = 0;          % 升空散射体纬度 S1
-% MixresultZhen{1,23} = 0;          % 升空散射体高度 S1
-% MixresultZhen{1,24} = 0;          % 升空散射体速度 S1
-% MixresultZhen{1,25} = 0;          % 升空散射体方向 S1
-% MixresultZhen{1,26} = 0;          % 升空散射体精度 S2
-% MixresultZhen{1,27} = 0;          % 升空散射体纬度 S2
-% MixresultZhen{1,28} = 0;          % 升空散射体高度 S2
-% MixresultZhen{1,29} = 0;          % 升空散射体速度 S2
-% MixresultZhen{1,30} = 0;          % 升空散射体方向 S2
-% MixresultZhen{1,31} = 0;          % 升空散射体精度 S3
-% MixresultZhen{1,32} = 0;          % 升空散射体纬度 S3
-% MixresultZhen{1,33} = 0;          % 升空散射体高度 S3
-% MixresultZhen{1,34} = 0;          % 升空散射体速度 S3
-% MixresultZhen{1,35} = 0;          % 升空散射体方向 S3
-% MixresultZhen{1,36} = 0;          % 升空散射体精度 S4
-% MixresultZhen{1,37} = 0;          % 升空散射体纬度 S4
-% MixresultZhen{1,38} = 0;          % 升空散射体高度 S4
-% MixresultZhen{1,39} = 0;          % 升空散射体速度 S4
-% MixresultZhen{1,40} = 0;          % 升空散射体方向 S4
-% MixresultZhen{1,41} = 4;          % DOA估计结果个数
-% MixresultZhen{1,42} = 0;          % 方位角1 
-% MixresultZhen{1,43} = 0;          % 俯仰角1
-% MixresultZhen{1,44} = 0;          % 方位角2
-% MixresultZhen{1,45} = 0;          % 俯仰角2
-% MixresultZhen{1,46} = 0;          % 方位角3
-% MixresultZhen{1,47} = 0;          % 俯仰角3
-% MixresultZhen{1,48} = 0;          % 方位角4
-% MixresultZhen{1,49} = 0;          % 俯仰角4
-% MixresultZhen{1,50} = 0;          % 方位角5
-% MixresultZhen{1,51} = 0;          % 俯仰角5
-% MixresultZhen{1,52} = 0;          % 方位角6
-% MixresultZhen{1,53} = 0;          % 俯仰角6
-% MixresultZhen{1,54} = 0;          % 方位角7
-% MixresultZhen{1,55} = 0;          % 俯仰角7
-% MixresultZhen{1,56} = 3;          % 升空散射体可侧向个数T
-% MixresultZhen{1,57} = 0;          % 第一个T散射体序号，DOA值序号
-% MixresultZhen{1,58} = 0;          % 第二个T散射体序号，DOA值序号
-% MixresultZhen{1,59} = 0;          % 第三个T散射体序号，DOA值序号
-% MixresultZhen{1,60} = 0;          % 第四个T散射体序号，DOA值序号
-% MixresultZhen{1,61} = 1;          % 当前参考通道信号来波方向在DOA值的序列号
-% MixresultZhen{1,62} = zeros(8,8);              % 协方差矩阵
-% MixresultZhen{1,63} = zeros(1,32768);          % IQ信号点
-% 
-% 
-% scampling =MixresultZhen{1,3};
-% if scampling ==32.5
-%    l = 163; k=1;
-% elseif scampling ==16.25
-%    l = 82; k=2;
-% elseif scampling ==8.125
-%    l = 41; k=3;
-% elseif scampling ==4.0625
-%    l = 21; k=6;
-% elseif scampling ==2.03125
-%    l = 1;  k=113;
-% end
-% MixresultZhen{1,64} = zeros(2*l+1,2*k+1);            % 采样率32.5MHZ第一扇区的RD矩阵
-% MixresultZhen{1,65} = zeros(2*l+1,2*k+1);            % 采样率32.5MHZ第二扇区的RD矩阵
-% MixresultZhen{1,66} = zeros(2*l+1,2*k+1);            % 采样率32.5MHZ第三扇区的RD矩阵
-% MixresultZhen{1,67} = zeros(2*l+1,2*k+1);            % 采样率32.5MHZ第四扇区的RD矩阵
-% MixresultZhen{1,68} = zeros(2*l+1,2*k+1);            % 采样率32.5MHZ第五扇区的RD矩阵
-% MixresultZhen{1,69} = zeros(2*l+1,2*k+1);            % 采样率32.5MHZ第六扇区的RD矩阵
-% MixresultZhen{1,70} = zeros(2*l+1,2*k+1);            % 采样率32.5MHZ第七扇区的RD矩阵
-% MixresultZhen{1,71} = zeros(2*l+1,2*k+1);            % 采样率32.5MHZ第八扇区的RD矩阵
-% MixresultZhen{1,72} = zeros(2*l+1,2*k+1);            % 采样率32.5MHZ第九扇区的RD矩阵
-% MixresultZhen{1,73} = zeros(2*l+1,2*k+1);            % 采样率32.5MHZ第十扇区的RD矩阵
-% MixresultZhen{1,74} = zeros(2*l+1,2*k+1);            % 采样率32.5MHZ第十一扇区的RD矩阵
-% MixresultZhen{1,75} = zeros(2*l+1,2*k+1);            % 采样率32.5MHZ第十二扇区的RD矩阵
-% MixresultZhen{1,76} = 0;                             % 校验码
-% MixresultZhen{1,77} =170;                            % 帧尾
+
 %% 设置路径、load特定的Mixframe_decoder、调用函数生成Mixframe2的bin文件
-% path1='D:\ZZJ_项目\升空散射体-计算服务器\混合数据帧2\MixZhen2_Qin2_1.bin';
-% path2='D:\ZZJ_项目\升空散射体-计算服务器\混合数据帧2\MixZhen2_Qin2_2.bin';
-% path3='D:\ZZJ_项目\升空散射体-计算服务器\混合数据帧2\MixZhen2_Qin2_3.bin';
-% path4='D:\ZZJ_项目\升空散射体-计算服务器\混合数据帧2\MixZhen2_Qin2_4.bin';
-% path5='D:\ZZJ_项目\升空散射体-计算服务器\混合数据帧2\MixZhen2_Qin2_5.bin';
-pathQin3_1='D:\ZZJ_项目\升空散射体-计算服务器\混合数据帧2\MixZhen2_Qin3_1.bin';
-pathQin3_2='D:\ZZJ_项目\升空散射体-计算服务器\混合数据帧2\MixZhen2_Qin3_2.bin';
-pathQin3_3='D:\ZZJ_项目\升空散射体-计算服务器\混合数据帧2\MixZhen2_Qin3_3.bin';
-pathQin3_4='D:\ZZJ_项目\升空散射体-计算服务器\混合数据帧2\MixZhen2_Qin3_4.bin';
-pathQin3_5='D:\ZZJ_项目\升空散射体-计算服务器\混合数据帧2\MixZhen2_Qin3_5.bin';
-Mixframe_decoder = load('E:\混合数据帧2解析\Mixframe2_Qin3-S3-T1-序号5_decode').Struct_data;
+Num_file = 8;
+for i=0:Num_file-1
+str_recoder = sprintf('D:\\ZZJ_项目\\升空散射体-计算服务器\\混合数据帧2\\MixZhen2_20210107Qin3_%d.bin',i);
+   str_load = sprintf('E:\\混合数据帧2解析\\Mixframe2_20210107Qin3-S3-T1-序号%d_decode.mat',i); 
+Mixframe_decoder = load(str_load).Struct_data;
 Mixframe_decoder{66} = zeros(8,8);
-generate_Mixframe(Mixframe_decoder,pathQin3_5);
+generate_Mixframe(Mixframe_decoder,str_recoder);
+end
 %%
 fileId =fopen(pathQin3_3,'rb');
 mixframe2_bin=fread(fileId,'uint8');
