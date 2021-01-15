@@ -162,11 +162,7 @@ T=T_num-1;                                             % 记录搜索的扇区
   % true area
     S_xyz = LBM_sXYZ((Q_array(2:Q_num+1,1:3))',cen_state);
     S_xyz = Q_array(2:Q_num+1,1:3)';               %  自制的解析帧散射体数据是站心坐标系 不需要坐标转换         
-  % temple area
-   % S_xyz = StructDate{1,7}(2:end,1:3)';
     
-
-%%%     true area                 % 截胡区域关闭则将此区域打开
     S_ref =S_xyz(:,refS_order);   % 默认将第一个可观测的散射体作为参考散射体  修改:默认将最强散射体的来波方向作为参考 
     T_sxyz=zeros(3,5);            
     j=1;
@@ -571,7 +567,7 @@ T=T_num-1;                                             % 记录搜索的扇区
     f_array=ones(1,4)*StructDate{1,2}(1,1);
     [loc_shunshi,couple_array]=Qin3_LMStraceloc(trace_cluster,S_xyz,S_txyz,S_vxyz,S_tv,f_array,doa_ref,flag_caiyang,flag_branch,Q_num,T_num); 
     
-    if loc_shunshi~=-1        % 定位有结果： 有两种情况： -1是无数据 / 有效数据   couple_array 有效的配对定位组合 
+    if loc_shunshi(1,1)~=-1        % 定位有结果： 有两种情况： -1是无数据 / 有效数据   couple_array 有效的配对定位组合 
        StructDate{1,11}=loc_shunshi;  
 %        disp(['情景3状态Mention: ',sprintf('分支%d',flag_branch) ,'定位结果有效']);
        flag_isUsed=1;        % 数据结果可用

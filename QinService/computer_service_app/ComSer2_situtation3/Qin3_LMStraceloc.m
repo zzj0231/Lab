@@ -8,12 +8,12 @@ function [loc_shunshi,couple_array]=Qin3_LMStraceloc(point_cluster,S_xyz,S_ref,S
  %%%flag_yundong 0: 不计算速度 1：计算速度
  %%%loc_shunshi 定位矩阵点， couple_array 有效的定位组合 元胞矩阵 列是数据
  
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%分支1%%%%%%%%%%%%%%%%%%%%%%%
+ %%%%%%%%%%分支1%%%%%%%%%%%%
  if flag_branch==1
      branch1_box=point_cluster{1};       %%%在分支一胞元矩阵只包含一个矩阵
     if branch1_box(1,1) ~=-1
        doa_rd=branch1_box(:,5:6);
-     if flag_caiyang==1       %%%分为高采样 低采样 不同定位形式
+     if flag_caiyang==1                  %%%分为高采样 低采样 不同定位形式
          tao_array=branch1_box(:,1);
          tao_array(:,2)=branch1_box(:,7);
          [loc_shun1,Index1]=Qin3_branch1_locGaocai(S_ref(:,1),tao_array,doa_rd);   %%%返回瞬时定位， 和配对索引   
@@ -25,13 +25,13 @@ function [loc_shunshi,couple_array]=Qin3_LMStraceloc(point_cluster,S_xyz,S_ref,S
      end
    else
       loc_shun1=-1;
-    end
+   end
        
     loc_shunshi=zeros(3,1);   
     value1=size(Index1);  
     couple_array=cell(1,1);
     couple_array{1}=0;  
-    if loc_shun1~=-1
+    if loc_shun1(1,1)~=-1
        loc_shunshi=[loc_shunshi loc_shun1];
        couple_array{1}=zeros(size(branch1_box,2),value1(2));     %%收集数据
          for i=1:value1(2)
@@ -42,7 +42,7 @@ function [loc_shunshi,couple_array]=Qin3_LMStraceloc(point_cluster,S_xyz,S_ref,S
     if col(2)>1
       loc_shunshi(:,1)=[];
     else
-      loc_shunshi=-1;
+       loc_shunshi=-1;
        couple_array=-1;
     end
  end
@@ -109,14 +109,14 @@ loc_shunshi=zeros(3,1);
 value1=size(Index1); value2=size(Index2); 
 couple_array=cell(1,3);
 couple_array{1}=0;   couple_array{2}=0;  
-if loc_shun1~=-1
+if loc_shun1(1,1)~=-1
    loc_shunshi=[loc_shunshi loc_shun1];
    couple_array{1}=zeros(size(branch1_box,2),value1(2));     %%收集数据
      for i=1:value1(2)
         couple_array{1}(:,i)=branch1_box(Index1(i),:)';
      end
 end
-if loc_shun2~=-1
+if loc_shun2(1,1)~=-1
    loc_shunshi=[loc_shunshi loc_shun2];
    if (Q-1)==2
       couple_array{2}=zeros(size(branch2_box,2),value2(2));     %%收集数据
@@ -239,7 +239,7 @@ loc_shunshi=zeros(3,1);
 
 couple_array=cell(1,3);
 couple_array{1}=0;   couple_array{2}=0;  couple_array{3}=0;
-if loc_shun1~=-1
+if loc_shun1(1,1)~=-1
    loc_shunshi=[loc_shunshi loc_shun1];
    value1=size(Index1); 
    couple_array{1}=zeros(7,value1(2));     %%收集数据
@@ -247,7 +247,7 @@ if loc_shun1~=-1
         couple_array{1}(:,i)=branch1_box(Index1(i),:)';
      end
 end
-if loc_shun2~=-1
+if loc_shun2(1,1)~=-1
    loc_shunshi=[loc_shunshi loc_shun2];
    value2=size(Index2);
    if (Q-1)==2
@@ -259,7 +259,7 @@ if loc_shun2~=-1
         couple_array{2}(:,i)=branch2_box(Index2(i),:)';
      end
 end
-if loc_shun3~=-1
+if loc_shun3(1,1)~=-1
    loc_shunshi=[loc_shunshi loc_shun3];
    value3=size(Index3); 
    if (T-1)==2
@@ -279,5 +279,5 @@ else
   couple_array=-1;
 end
 
- end
+end
  

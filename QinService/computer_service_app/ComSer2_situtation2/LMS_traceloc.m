@@ -15,7 +15,7 @@ function [loc_shunshi,couple_array]=LMS_traceloc(point_cluster,S_xyz,S_varray,f_
      Index=-1;
       if flag_caiyang==1          %%%分为高采样 低采样 不同定位形式
          si_box=point_cluster{1}; 
-       if si_box~=-1              %%%检查散射体在第二次筛选后的有效性
+       if si_box(1,1)~=-1              %%%检查散射体在第二次筛选后的有效性
          tao_array=si_box(:,1);
          tao_array(:,2)=si_box(:,7);
          s_xyz=S_xyz;   %%%提取出相应散射体坐标
@@ -37,7 +37,7 @@ function [loc_shunshi,couple_array]=LMS_traceloc(point_cluster,S_xyz,S_varray,f_
          end
       end 
 
-     if loc_shun~=-1
+     if loc_shun(1,1)~=-1
          value2=size(Index);
          loc_shunshi=loc_shun;
          couple_array=cell(1,1);     %%%组合数据收集   列是数据
@@ -55,7 +55,7 @@ function [loc_shunshi,couple_array]=LMS_traceloc(point_cluster,S_xyz,S_varray,f_
      si_box=point_cluster{1};
      sisi_box=point_cluster{2};
      loc_shun1=-1;  loc_shun2=-1;
-   if si_box ~=-1
+   if si_box(1,1) ~=-1
      if flag_caiyang==1       %%%分为高采样 低采样 不同定位形式
          tao_array=si_box(:,1);
          tao_array(:,2)=si_box(:,7);
@@ -77,7 +77,7 @@ function [loc_shunshi,couple_array]=LMS_traceloc(point_cluster,S_xyz,S_varray,f_
       loc_shun1=-1;
    end
    
-   if sisi_box~=-1
+   if sisi_box(1,1)~=-1
        if flag_caiyang==1       %%%分为高采样 低采样 不同定位形式
          tao_array=sisi_box(:,1);
          tao_array(:,2)=sisi_box(:,5);
@@ -139,7 +139,7 @@ function [loc_shunshi,couple_array]=LMS_traceloc(point_cluster,S_xyz,S_varray,f_
      sisisi_box=point_cluster{3};
  
      
-   if si_box ~=-1
+   if si_box(1,1) ~=-1
      if flag_caiyang==1       %%%分为高采样 低采样 不同定位形式
          tao_array=si_box(:,1);
          tao_array(:,2)=si_box(:,7);
@@ -157,7 +157,7 @@ function [loc_shunshi,couple_array]=LMS_traceloc(point_cluster,S_xyz,S_varray,f_
       loc_shun1=-1;
    end
    
-   if sisi_box~=-1
+   if sisi_box(1,1)~=-1
        if flag_caiyang==1       %%%分为高采样 低采样 不同定位形式
          tao_array=sisi_box(:,1);
          tao_array(:,2)=sisi_box(:,5);
@@ -177,7 +177,7 @@ function [loc_shunshi,couple_array]=LMS_traceloc(point_cluster,S_xyz,S_varray,f_
        loc_shun2=-1;
    end
 
-    if sisisi_box~=-1
+    if sisisi_box(1,1)~=-1
        if flag_caiyang==1       %%%分为高采样 低采样 不同定位形式
          tao_array=sisisi_box(:,1);
          tao_array(:,2)=sisisi_box(:,5);
@@ -244,7 +244,7 @@ end
      sisisi_box=point_cluster{3};
      sisisisi_box=point_cluster{4};
     
-   if si_box ~=-1
+   if si_box(1,1) ~=-1
      if flag_caiyang==1       %%%分为高采样 低采样 不同定位形式
          tao_array=si_box(:,1);
          tao_array(:,2)=si_box(:,7);
@@ -262,7 +262,7 @@ end
       loc_shun1=-1;
    end
    
-   if sisi_box~=-1
+   if sisi_box(1,1)~=-1
        if flag_caiyang==1       %%%分为高采样 低采样 不同定位形式
          tao_array=sisi_box(:,1);
          tao_array(:,2)=sisi_box(:,5);
@@ -282,7 +282,7 @@ end
        loc_shun2=-1;
    end
 
-    if sisisi_box~=-1
+    if sisisi_box(1,1)~=-1
        if flag_caiyang==1       %%%分为高采样 低采样 不同定位形式
          tao_array=sisisi_box(:,1);
          tao_array(:,2)=sisisi_box(:,5);
@@ -304,7 +304,7 @@ end
        loc_shun3=-1;
    end
 
-  if sisisisi_box~=-1
+  if sisisisi_box(1,1)~=-1
        if flag_caiyang==1       %%%分为高采样 低采样 不同定位形式
          tao_array=sisisi_box(:,1);
          tao_array(:,2)=sisisi_box(:,5);
@@ -329,7 +329,7 @@ end
 loc_shunshi=zeros(3,1);
 couple_array=cell(1,4);
 couple_array{1}=0;   couple_array{2}=0;  couple_array{3}=0; couple_array{4}=0;
-if loc_shun1~=-1
+if loc_shun1(1,1)~=-1
     value1=size(Index1); 
    loc_shunshi=[loc_shunshi loc_shun1];
       couple_array{1}=zeros(7,value1(2));     %%收集数据
@@ -337,7 +337,7 @@ if loc_shun1~=-1
         couple_array{1}(:,i)=si_box(Index1(i),:);
      end
 end
-if loc_shun2~=-1
+if loc_shun2(1,1)~=-1
    value2=size(Index2); 
    loc_shunshi=[loc_shunshi loc_shun2];
       couple_array{2}=zeros(12,value2(2));     %%收集数据
@@ -345,7 +345,7 @@ if loc_shun2~=-1
         couple_array{2}(:,i)=sisi_box(Index2(i),:)';
      end
 end
-if loc_shun3~=-1
+if loc_shun3(1,1)~=-1
    value3=size(Index3); 
    loc_shunshi=[loc_shunshi loc_shun3];
    couple_array{3}=zeros(17,value3(2));     %%收集数据
@@ -353,7 +353,7 @@ if loc_shun3~=-1
         couple_array{3}(:,i)=sisisi_box(Index3(i),:)';
      end
 end
-if loc_shun4~=-1
+if loc_shun4(1,1)~=-1
    value4=size(Index4); 
    loc_shunshi=[loc_shunshi loc_shun4];
       couple_array{4}=zeros(18,value4(2));     %%收集数据

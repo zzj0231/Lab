@@ -8,7 +8,7 @@ function [StructDate,UI_printInf,flag_isUsed]=Qin2_computerservice(Sigframe_deco
 %%%  flag_isUsed=0   定位结果是否有效
 
 %%% 特征滤波 期望信号再确认
-    %%% there? or other?
+  % there? or other?
 addpath 'E:\A_Matlab2020a\Matlab2020a\bin\computer_service_app\ComSer2_situtation2'    
 
 % 截胡准备区
@@ -18,7 +18,7 @@ addpath 'E:\A_Matlab2020a\Matlab2020a\bin\computer_service_app\ComSer2_situtatio
 % simulation_RD = simulation_RD.RD_cell;
 %
 
-%%% 获取直达波方向 读取升空散射体方位扇区RD数据块
+% 获取直达波方向 读取升空散射体方位扇区RD数据块
 flag_yundong=0;
 
 Scample_rate_1 = 32500000;        % scamping rate_1: 32.5MHZ
@@ -93,7 +93,7 @@ StructDate{10}(1:2) = StructDate{8}(refdoa_order+1,1:2);
 StructDate{10}(3) =  refdoa_order;
 TDOA_FDOA_Az_DOA=StructDate;                % TDOA-DOA-Az-FDOA数据结构体 AZ参考通道的序号
 doa_ref=StructDate{1,10}(1:2);              % 参考通道DOA
-%%%
+%
 
 %%%% 存储TDOA-DOA-Azimuth-DOA结构体
     for i=10:-1:5
@@ -142,7 +142,7 @@ doa_ref=StructDate{1,10}(1:2);              % 参考通道DOA
         RD_data{i-67} = Sigframe_decoded{i};
     end
    
-    UI_printInf =cell(1,5);
+   UI_printInf =cell(1,5);
 %  第二部分 获取散射体数量 散射体对应方位角/俯仰角 填装Rd_cell CFAR检测 峰值检测   
    Rd_cell=cell(1,4);       % 声明RD数据容器  用于装载每个散射体对应的方位扇区的RD数据
    Pefeng_cell=cell(1,4);   % Pefeng_cell容器 用于装载有效的谱峰搜索结果
@@ -234,8 +234,8 @@ doa_ref=StructDate{1,10}(1:2);              % 参考通道DOA
       str1 = ['E:\混合数据帧2解析\TDOA_FDOA_Azimuth_DOA\',sprintf(format1,StructDate{2}(1),StructDate{2}(3),StructDate{1}(1),StructDate{1}(2),StructDate{1}(3),StructDate{1}(4),StructDate{1}(5),StructDate{1}(6))];
       save(str1,'TDOA_FDOA_Az_DOA')  % 保存该结构体
       str2 = sprintf('  情景2: 搜索%d个散射体，%d散射体扇区存在谱峰搜索结果！',Q_num,Q);
-%       disp(['情景2状态Mention: ',sprintf('%d个升空散射体',Q) ,'谱峰搜索结果具有效数据']);
-      UI_printInf{1} =record_cfarout;
+%     disp(['情景2状态Mention: ',sprintf('%d个升空散射体',Q) ,'谱峰搜索结果具有效数据']);
+      UI_printInf{1} = record_cfarout;
       UI_printInf{2} = str2;   
       UI_printInf{3} = str1;                                              % 记录TDOA_FDOA_Az_D0A保存位置
        
@@ -258,9 +258,9 @@ doa_ref=StructDate{1,10}(1:2);              % 参考通道DOA
          [loc_shunshi,couple_array] = LMS_traceloc(point_cluster_cell2,S_xyz,S_vxyz,f_array,doa_ref,flag_caiyang,flag_yundong);
        end
        
-       if loc_shunshi~=-1  %定位有结果： 有两种情况： -1是无数据 / 有效数据   couple_array 有效的配对定位组合 
+       if loc_shunshi(1,1)~=-1  %定位有结果： 有两种情况： -1是无数据 / 有效数据   couple_array 有效的配对定位组合 
            StructDate{1,11}=loc_shunshi;  
-%            disp(['情景2状态Mention: ',sprintf('%d个升空散射体',Q) ,'获得有效的定位结果']);
+%          disp(['情景2状态Mention: ',sprintf('%d个升空散射体',Q) ,'获得有效的定位结果']);
            flag_isUsed=1;        % 数据结果可用
        else
            StructDate{1,11}=0;  
@@ -295,30 +295,30 @@ function [Rd,L_k]=AcquireRdDate2(RD_data,index_Rd,flag_caiyangl)
     Rd=RD_data{index_Rd};
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 仿真必要函数 %%%%%%%%%%%%%%%%%%%%%%%%
-function StructDate = Simu_structdata()
-StructDate=cell(1,11);
-StructDate{1}=[2020,10,2,11,32,40];
-StructDate{2}=[15,30,32.5];
-StructDate{3}=[1,163,30.77];
-StructDate{4}=[0,0,0];
-StructDate{5}=[0,1];
-StructDate{6}=[0 0 0 0 0 0       %UCA坐标模块 经度 纬度 高度 速度x y z
-               0 0 0 0 0 0];     %磁x 磁y 磁z 俯仰 横向 0
-StructDate{7}=[ 3  0  0 0 0 0  0  0
-                300,70,50 0 0 0 13.1 9.21     %% 未测向散射体Q (NumQ+1)*8  第一行：数量
-               -400 70 60 0 0 0 170.1 8.40    %% S经度 S纬度 S高度  S_速度x S_速度y S_速度z 方向 俯仰
-                5 -100 50 0 0 0 272.9 26.53];
-StructDate{8}= [4 0 0                   %% DOA信息 (Num_DOA+1)*3 第一行 DOA的数量
-                45 4 0 
-                13.1 9.21 0
-                170.1 8.40 0
-                272.9 26.53 0           %% 方向角 俯仰角 来波方向强度                         
-                ];
-StructDate{9}= [3 0 0 0 0
-                5 -100 50 3 2
-                300 70 50 1 3
-               -400 70 60 2 4];         %% zeros 1*5  T散射体信息 (Num_T+1)*5
-StructDate{10}=[45 4 1];
-end
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 仿真必要函数 %%%%%%%%%%%%%%%%%%%%%%%%
+% function StructDate = Simu_structdata()
+% StructDate=cell(1,11);
+% StructDate{1}=[2020,10,2,11,32,40];
+% StructDate{2}=[15,30,32.5];
+% StructDate{3}=[1,163,30.77];
+% StructDate{4}=[0,0,0];
+% StructDate{5}=[0,1];
+% StructDate{6}=[0 0 0 0 0 0       %UCA坐标模块 经度 纬度 高度 速度x y z
+%                0 0 0 0 0 0];     %磁x 磁y 磁z 俯仰 横向 0
+% StructDate{7}=[ 3  0  0 0 0 0  0  0
+%                 300,70,50 0 0 0 13.1 9.21     %% 未测向散射体Q (NumQ+1)*8  第一行：数量
+%                -400 70 60 0 0 0 170.1 8.40    %% S经度 S纬度 S高度  S_速度x S_速度y S_速度z 方向 俯仰
+%                 5 -100 50 0 0 0 272.9 26.53];
+% StructDate{8}= [4 0 0                   %% DOA信息 (Num_DOA+1)*3 第一行 DOA的数量
+%                 45 4 0 
+%                 13.1 9.21 0
+%                 170.1 8.40 0
+%                 272.9 26.53 0           %% 方向角 俯仰角 来波方向强度                         
+%                 ];
+% StructDate{9}= [3 0 0 0 0
+%                 5 -100 50 3 2
+%                 300 70 50 1 3
+%                -400 70 60 2 4];         %% zeros 1*5  T散射体信息 (Num_T+1)*5
+% StructDate{10}=[45 4 1];
+% end
 

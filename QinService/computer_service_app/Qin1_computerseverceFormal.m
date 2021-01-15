@@ -10,7 +10,7 @@ addpath(genpath('E:\A_Matlab2020a\Matlab2020a\bin\computer_service_app\ComSer2_s
  ClusterDoa_cell = load('E:\混合数据帧2解析\情景1中间结果存储\ClusterDoa_cell.mat').ClusterDoa_cell;  
 StateLoc_recoder = load('E:\混合数据帧2解析\情景1中间结果存储\StateLoc_recoder.mat').StateLoc_recoder;
 targetLocResult  = load('E:\混合数据帧2解析\情景1中间结果存储\targetLocResult.mat').targetLocResult;        
-UI_printInf = cell(1,3);
+UI_printInf = cell(1,4);
 FrameInState_num = Num_zhen;
 flag_isUsed = 0;
 StructDate =0;
@@ -19,12 +19,18 @@ if Process_M == 0                                                               
     CPI_DOAcell = AcquireDoA(SignalState_cell,FrameInState_num);                 % CPI_DOAcell是元胞矩阵 第一帧数据的DOA已经进行过滤
     ClusterDoa_cell{Process_M+1}=DOA_cluster(CPI_DOAcell,FrameInState_num);      % 存储 功能: 收集当前站DOA聚类结果      
     StateLoc_recoder(:,Process_M+1)=[0,0,0]';                                    % 存储 功能: 记录当前站数
+    LBH_ref = [SignalState_cell{1}{12},SignalState_cell{1}{13},SignalState_cell{1}{14}]';
+    StateLoc_recoder(:,Process_M+1)=LBH_ref';                                    % 正式发布删除 建立以初始站位为核心的坐标系，初始站位[0,0,0]
     Process_M = Process_M+1;
+    str = sprintf('  情景1：第%d站处理完毕！',Process_M);
+    UI_printInf{1}=str;
     save('E:\混合数据帧2解析\情景1中间结果存储\Process_M.mat','Process_M');
     save('E:\混合数据帧2解析\情景1中间结果存储\ClusterDoa_cell.mat','ClusterDoa_cell');
     save('E:\混合数据帧2解析\情景1中间结果存储\StateLoc_recoder.mat','StateLoc_recoder');
+    save('E:\混合数据帧2解析\情景1中间结果存储\LBH_ref.mat','LBH_ref');
 elseif (Process_M < Num_m && Process_M>0)
     LBH_next =[SignalState_cell{1}{12},SignalState_cell{1}{13},SignalState_cell{1}{14}]';
+    LBH_ref = load('E:\混合数据帧2解析\情景1中间结果存储\LBH_ref.mat').LBH_ref;
   % XYZ_next = LBH_XYZ(LBH_next,LBH_ref);   % 无真实数据时，收到的数据时站心坐标
     XYZ_next = LBH_next;
     CPI_DOAcell = AcquireDoA(SignalState_cell,FrameInState_num);        % CPI_DOAcell是元胞矩阵 第一帧数据的DOA已经进行过滤
@@ -47,14 +53,13 @@ elseif (Process_M < Num_m && Process_M>0)
 end
 % 第二部分 减法聚类获得最终目标位置
 if (Process_M >= Num_m)
-    Process_M = 0;
     ClusterDoa_cell = cell(1,1);
     StateLoc_recoder = zeros(3,1);
     
     targetLocResult(:,all(targetLocResult==0,1))=[];
     NumResult=size(targetLocResult);
-    str = sprintf("  情景1：获得%d组测向交汇定位结果！",Process_M,NumResult(2));
-    UI_printInf{1}=str;
+    str = sprintf("  情景1：测向交汇，获得%d组测向交汇定位结果！",NumResult(2));
+    UI_printInf{2}=str;
     if NumResult(2)>0
         Loc_sub=subcluster_loc(targetLocResult,Num_m,ya, yb, k_up, k_down, r);
         dim_sub=size(Loc_sub);
@@ -68,7 +73,7 @@ if (Process_M >= Num_m)
         Loc_sub=-1;
         flag_isUsed=0;
     end
-    UI_printInf{3}=Loc_sub;
+    UI_printInf{4}=Loc_sub;
     loc_end=zeros(3,200);
     if  flag_isUsed==1
         for i=1:dim_sub(2)
@@ -79,7 +84,7 @@ if (Process_M >= Num_m)
     end
     loc_end(:,all(loc_end==0,1))=[];
     str = sprintf("  情景1：获得%d组定位结果！",size(loc_end,2));
-    UI_printInf{2}=str;
+    UI_printInf{3}=str;
     StructDate = ComponentStruct(SignalState_cell{Num_zhen});  % 最后一站 最后一帧
     StructDate{1,11}=loc_end;  % 为数据结构体加入定位结果
     targetLocResult = zeros(4,1);
