@@ -1,4 +1,4 @@
-function [StructDate,UI_printInf,flag_Qin,flag_isUsed] = computerserviceFromalMain(Sigframe_decoded,parameterSit1_cell,parameterSit2_cell,isMoveTarget)
+function [StructDate,UI_printInf,flag_Qin,flag_isUsed] = computerserviceFromalMain(Sigframe_decoded,parameterSit1_cell,parameterSit2_cell,isMoveStation)
 % 计算服务器三种情景应用集合函数
 
 %  parameterSit1_cell： 移动单站纯DOA定位方式
@@ -17,7 +17,7 @@ count_zhen = 1;    % 暂时默认只处理一帧
 Q_T=zeros(2,count_zhen);  
 sitution=zeros(1,count_zhen);      % 用于说明当前帧适应的场景类型
 
-if isMoveTarget==1
+if isMoveStation==1
     flag_Qin =1;
     disp('情景1状态Mention：进入到升空散射体定位场景1中');
     Num_m = parameterSit1_cell{1};
@@ -27,7 +27,8 @@ if isMoveTarget==1
     r=parameterSit1_cell{5};
     k_up =parameterSit1_cell{6};
     k_down =parameterSit1_cell{7};
-    [StructDate,flag_isUsed]=Qin1_computerseverceFormal(MutilState_cell,Num_m,Num_zhen,ya, yb, k_up, k_down, r);    % 定位结果 当前CPI瞬时结构体 二进制结构图(未定义起始和截止 缺少定位结果字节) 
+    MutilState_cell = Sigframe_decoded;
+   [StructDate,UI_printInf,flag_isUsed]=Qin1_computerseverceFormal(MutilState_cell,Num_m,Num_zhen,ya, yb, k_up, k_down, r);    % 定位结果 当前CPI瞬时结构体 二进制结构图(未定义起始和截止 缺少定位结果字节) 
 else
     for i=1:count_zhen
         Q_T(1,i)=Sigframe_decoded{1,20};   % 获取Q散射体数量
